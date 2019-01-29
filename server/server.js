@@ -13,7 +13,9 @@ const port = process.env.PORT || 3030
 app.post('/todos', (req,res)=>{
    // console.log(req.body)
    var newtodo =new todo({
-       text : req.body.text
+       text : req.body.text,
+       completed :req.body.completed,
+       completedat :req.body.completedat
    });
    newtodo.save().then((result)=>{
       res.send(result)
@@ -53,6 +55,6 @@ app.get('/todos/:id',(req,res) =>{
 
 
 app.listen(port ,() =>{
-console.log('this app is running on port ${port}' )
+console.log(`this app is running on port ${port}` )
 })
  
