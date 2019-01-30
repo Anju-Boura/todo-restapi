@@ -17,9 +17,13 @@ app.post('/todos', (req,res)=>{
    var newtodo =new todo({
        text : req.body.text,
        completed :req.body.completed,
+<<<<<<< HEAD
        completedat : req.body.completedat
     
 
+=======
+       completedat :req.body.completedat
+>>>>>>> d1c96fbecbe0035beaca8c7bec66c637ad189f46
    });
    newtodo.save().then((result)=>{
       res.send(result)
@@ -61,6 +65,13 @@ app.get('/todos/:id',(req,res) =>{
 });
 
 
+<<<<<<< HEAD
 app.listen(port,() =>{
 console.log(`this app is running on port ${port}`)
 });
+=======
+app.listen(port ,() =>{
+console.log(`this app is running on port ${port}` )
+})
+ 
+>>>>>>> d1c96fbecbe0035beaca8c7bec66c637ad189f46
