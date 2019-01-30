@@ -5,12 +5,16 @@
 var {user}=require('./model/user')
 var {user}=require('./model/user')
 var {ObjectID} = require('mongodb')
+const _=require('lodash')
 
 
 
 const app = express()
 app.use(body_parser.json())
 const port = process.env.PORT || 4040
+
+
+
 
 app.post('/todos', (req,res)=>{
    // console.log(req.body)
@@ -67,10 +71,35 @@ app.delete('/todos/:id',(req,res) =>{
            if(!docs){
                return res.status(400).send('not any records by that id')
            }
+           res.send(docs)
         },(errror)=>{
             res.status(200).send(error)
         })
     });
+ //to update
+    app.patch('/todos/:id',(req,res) =>{
+        var id=req.params.id
+        var body=_.pick(req.body,['text','completed'])
+        if(!ObjectID.isValid(id)){
+            return res.status(400).send('not a valid id')
+        }
+
+        if(_.isBoolean(body.completed) && body.completed){
+            body.completedat= new Date().getTime()
+        }
+        else{
+            body.completed =false
+            body.completedat=null
+        }
+        todo.findByIdAndUpdate(id, {$set :body},{new :true}).then((docs)=>{
+            res.status(200).send(docs)
+        },(error) =>{
+            res.status(400).send(error)
+        })
+
+        }
+    
+    )
 
     
 
