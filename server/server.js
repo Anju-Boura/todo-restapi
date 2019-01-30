@@ -6,14 +6,20 @@ var {user}=require('./model/user')
 var {user}=require('./model/user')
 var {ObjectID} = require('mongodb')
 
+
+
 const app = express()
 app.use(body_parser.json())
-const port = process.env.PORT || 3030
+const port = process.env.PORT || 4040
 
 app.post('/todos', (req,res)=>{
    // console.log(req.body)
    var newtodo =new todo({
-       text : req.body.text
+       text : req.body.text,
+       completed :req.body.completed,
+       completedat : req.body.completedat
+    
+
    });
    newtodo.save().then((result)=>{
       res.send(result)
@@ -21,11 +27,14 @@ app.post('/todos', (req,res)=>{
      res.status(400).send(e);
    }
    )
-    
+
 });
 
 app.get('/todos',(req,res) =>{
     todo.find().then( (result) =>{
+        if(!result){
+            return res.status(400).send('there is not any result')
+        }
     res.send(result)
     },(error) =>{
         res.status(400).send((error))
@@ -52,7 +61,6 @@ app.get('/todos/:id',(req,res) =>{
 });
 
 
-app.listen(port ,() =>{
-console.log('this app is running on port ${port}' )
-})
- 
+app.listen(port,() =>{
+console.log(`this app is running on port ${port}`)
+});
